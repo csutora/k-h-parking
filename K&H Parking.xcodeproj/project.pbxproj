@@ -11,8 +11,14 @@
 		7A4D4C0F29A96EA60056BBDE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C0E29A96EA60056BBDE /* ContentView.swift */; };
 		7A4D4C1129A96EA60056BBDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1029A96EA60056BBDE /* Assets.xcassets */; };
 		7A4D4C1429A96EA60056BBDE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1329A96EA60056BBDE /* Preview Assets.xcassets */; };
-		7A4D4C1629A96EA60056BBDE /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1529A96EA60056BBDE /* Persistence.swift */; };
 		7A4D4C1929A96EA60056BBDE /* K_H_Parking.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1729A96EA60056BBDE /* K_H_Parking.xcdatamodeld */; };
+		7A4D4C2029A96EFF0056BBDE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1F29A96EFF0056BBDE /* LoginView.swift */; };
+		7A4D4C2229A96F2A0056BBDE /* HttpHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2129A96F2A0056BBDE /* HttpHandler.swift */; };
+		7A4D4C2429A96F4E0056BBDE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */; };
+		7A4D4C2A29A96F970056BBDE /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2929A96F970056BBDE /* PersistenceController.swift */; };
+		7A4D4C2E29A96FBB0056BBDE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */; };
+		7A4D4C3029A96FD00056BBDE /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2F29A96FD00056BBDE /* UserManager.swift */; };
+		7A4D4C3329A970540056BBDE /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4D4C3229A970540056BBDE /* SwiftUIKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,8 +27,13 @@
 		7A4D4C0E29A96EA60056BBDE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7A4D4C1029A96EA60056BBDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A4D4C1329A96EA60056BBDE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		7A4D4C1529A96EA60056BBDE /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		7A4D4C1829A96EA60056BBDE /* K_H_Parking.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = K_H_Parking.xcdatamodel; sourceTree = "<group>"; };
+		7A4D4C1F29A96EFF0056BBDE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		7A4D4C2129A96F2A0056BBDE /* HttpHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHandler.swift; sourceTree = "<group>"; };
+		7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		7A4D4C2929A96F970056BBDE /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		7A4D4C2F29A96FD00056BBDE /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A4D4C3329A970540056BBDE /* SwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,12 +67,17 @@
 		7A4D4C0B29A96EA60056BBDE /* K&H Parking */ = {
 			isa = PBXGroup;
 			children = (
+				7A4D4C1F29A96EFF0056BBDE /* LoginView.swift */,
 				7A4D4C0C29A96EA60056BBDE /* K_H_ParkingApp.swift */,
 				7A4D4C0E29A96EA60056BBDE /* ContentView.swift */,
 				7A4D4C1029A96EA60056BBDE /* Assets.xcassets */,
-				7A4D4C1529A96EA60056BBDE /* Persistence.swift */,
 				7A4D4C1729A96EA60056BBDE /* K_H_Parking.xcdatamodeld */,
 				7A4D4C1229A96EA60056BBDE /* Preview Content */,
+				7A4D4C2129A96F2A0056BBDE /* HttpHandler.swift */,
+				7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */,
+				7A4D4C2929A96F970056BBDE /* PersistenceController.swift */,
+				7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */,
+				7A4D4C2F29A96FD00056BBDE /* UserManager.swift */,
 			);
 			path = "K&H Parking";
 			sourceTree = "<group>";
@@ -89,6 +106,9 @@
 			dependencies = (
 			);
 			name = "K&H Parking";
+			packageProductDependencies = (
+				7A4D4C3229A970540056BBDE /* SwiftUIKit */,
+			);
 			productName = "K&H Parking";
 			productReference = 7A4D4C0929A96EA60056BBDE /* K&H Parking.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +137,9 @@
 				Base,
 			);
 			mainGroup = 7A4D4C0029A96EA50056BBDE;
+			packageReferences = (
+				7A4D4C3129A970530056BBDE /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
+			);
 			productRefGroup = 7A4D4C0A29A96EA60056BBDE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -143,10 +166,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A4D4C1629A96EA60056BBDE /* Persistence.swift in Sources */,
+				7A4D4C3029A96FD00056BBDE /* UserManager.swift in Sources */,
 				7A4D4C1929A96EA60056BBDE /* K_H_Parking.xcdatamodeld in Sources */,
 				7A4D4C0F29A96EA60056BBDE /* ContentView.swift in Sources */,
+				7A4D4C2029A96EFF0056BBDE /* LoginView.swift in Sources */,
+				7A4D4C2429A96F4E0056BBDE /* NotificationManager.swift in Sources */,
+				7A4D4C2229A96F2A0056BBDE /* HttpHandler.swift in Sources */,
+				7A4D4C2E29A96FBB0056BBDE /* SettingsView.swift in Sources */,
 				7A4D4C0D29A96EA60056BBDE /* K_H_ParkingApp.swift in Sources */,
+				7A4D4C2A29A96F970056BBDE /* PersistenceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +375,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7A4D4C3129A970530056BBDE /* XCRemoteSwiftPackageReference "SwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/SwiftUIKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7A4D4C3229A970540056BBDE /* SwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A4D4C3129A970530056BBDE /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
+			productName = SwiftUIKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		7A4D4C1729A96EA60056BBDE /* K_H_Parking.xcdatamodeld */ = {
