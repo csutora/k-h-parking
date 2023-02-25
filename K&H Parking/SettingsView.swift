@@ -58,6 +58,7 @@ struct SettingsNotificationView: View {
     
     let isToggleOnKey = "isToggleOn"
     @State var isNotificationToggleOn = false
+    @State var isNotificationAutomaticToggleOn = true
     
     init(){
         _isNotificationToggleOn = State(initialValue: UserDefaults.standard.bool(forKey: isToggleOnKey))
@@ -75,7 +76,6 @@ struct SettingsNotificationView: View {
     var body: some View {
         List {
             Text("Amennyiben szükségesnek találja a rendszer, értesítés útján kér visszajelzést arról, hogy Önnek szüksége lesz-e holnapi parkolóhelyére. Ezeket itt szabhatja személyre.")
-            NotificationTimePicker(selectedTime: $notificationTime)
             Toggle(isOn: $isNotificationToggleOn){
                 Text("Engedélyezve")
             }
@@ -86,7 +86,18 @@ struct SettingsNotificationView: View {
                     hasTestRun = true
                 }
             }
+            if(isNotificationToggleOn){
+                Toggle(isOn: $isNotificationAutomaticToggleOn){
+                    Text("Automatikus időpont")
+                }
+                if(!isNotificationAutomaticToggleOn){
+                    NotificationTimePicker(selectedTime: $notificationTime)
+                }
+            }
             
+        }
+        .onDisappear {
+            UserDefaults.standard.set(isNotificationToggleOn, forKey: isToggleOnKey)
         }
         .navigationTitle("Értesítések")
         .onAppear {
