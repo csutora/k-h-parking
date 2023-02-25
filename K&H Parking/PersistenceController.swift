@@ -17,8 +17,6 @@ struct Settings: Codable {
     var notifTime: Date
 }
 
-
-
 @objc(User)
 class User: NSManagedObject {
     @NSManaged var name: String

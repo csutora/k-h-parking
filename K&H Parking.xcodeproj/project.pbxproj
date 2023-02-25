@@ -18,6 +18,7 @@
 		7A4D4C2A29A96F970056BBDE /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2929A96F970056BBDE /* PersistenceController.swift */; };
 		7A4D4C2E29A96FBB0056BBDE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */; };
 		7A4D4C3329A970540056BBDE /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4D4C3229A970540056BBDE /* SwiftUIKit */; };
+		907E3BD729AA371200770894 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907E3BD629AA371200770894 /* BackgroundTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		7A4D4C2929A96F970056BBDE /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		907E3BD629AA371200770894 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */,
 				7A4D4C2929A96F970056BBDE /* PersistenceController.swift */,
 				7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */,
+				907E3BD629AA371200770894 /* BackgroundTask.swift */,
 			);
 			path = "K&H Parking";
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907E3BD729AA371200770894 /* BackgroundTask.swift in Sources */,
 				7A4D4C1929A96EA60056BBDE /* K_H_Parking.xcdatamodeld in Sources */,
 				7A4D4C0F29A96EA60056BBDE /* ContentView.swift in Sources */,
 				7A4D4C2029A96EFF0056BBDE /* LoginView.swift in Sources */,
