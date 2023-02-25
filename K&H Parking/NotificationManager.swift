@@ -25,23 +25,34 @@ class NotificationManager {
         }
     }
     func setCategories() {
-            let replyAction = UNTextInputNotificationAction(
-                identifier: "reply",
-                title: "Reply",
+            let giveToAnyone = UNNotificationAction(
+                identifier: "giveToAnyone",
+                title: "Helyed átadása bárkinek",
+                options: [.foreground]
+               // icon: UNNotificationActionIcon(systemImageName: "person.3")
+            )
+            
+            let giveToFriend_1 = UNNotificationAction(
+                identifier: "giveToFriend1",
+                title: "Freund Lászlónak",
                 options: [.foreground],
-                textInputButtonTitle: "Send",
-                textInputPlaceholder: "Type your message here"
+                icon: UNNotificationActionIcon(systemImageName: "star")
             )
-            
-            let deleteAction = UNNotificationAction(
-                identifier: "delete",
-                title: "Delete",
-                options: [.destructive]
+            let giveToFriend_2 = UNNotificationAction(
+                identifier: "giveToFriend2",
+                title: "Csutora Narának",
+                options: [.foreground],
+                icon: UNNotificationActionIcon(systemImageName: "star")
             )
-            
+            let giveToFriend_3 = UNNotificationAction(
+                identifier: "giveToFriend3",
+                title: "Török Péternek",
+                options: [.foreground],
+                icon: UNNotificationActionIcon(systemImageName: "star")
+            )
             let category = UNNotificationCategory(
                 identifier: "message",
-                actions: [replyAction, deleteAction],
+                actions: [giveToAnyone,giveToFriend_1,giveToFriend_2,giveToFriend_3],
                 intentIdentifiers: [],
                 options: [.customDismissAction]
             )
@@ -57,8 +68,8 @@ class NotificationManager {
         center.removePendingNotificationRequests(withIdentifiers: ["notification"])
         
         let content = UNMutableNotificationContent()
-        content.title = "Reminder"
-        content.body = "Don't forget to check out your app today!"
+        content.title = "Emlékeztető"
+        content.body = "456 kollégája vár parkolóhelyre, ne felejtse el lemondani"
         content.sound = UNNotificationSound.default
         content.badge = 1
         content.categoryIdentifier = "message"
