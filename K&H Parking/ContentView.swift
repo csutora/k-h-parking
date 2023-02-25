@@ -20,15 +20,29 @@ class SharedData: ObservableObject {
         startDate = calendar.startOfWeek(for: Date()) // Start of this week
         endDate = startDate.addingTimeInterval(21 * 24 * 60 * 60) // Two weeks from the start of this week
         
-        var currDate = startDate
-        var i = 0
         
-        while currDate < endDate {
-            days.append(DayData(day: currDate, id: i))
-            currDate = calendar.date(byAdding: .day, value: 1, to: currDate)!
-            i += 1
+        
+        let calendarStatus: CalendarStatus? = PersistenceController.shared.loadCalendarStatus()
+        if calendarStatus == nil {
             
+            var cs: CalendarStatus = CalendarStatus(days: [])
+            var currDate = startDate
+            var i = 0
+            
+            while currDate < endDate {
+                cs.days.append(DayData(day: currDate, id: i))
+                currDate = calendar.date(byAdding: .day, value: 1, to: currDate)!
+                i += 1
+                
+            }
+            
+            PersistenceController.shared.saveCalendarStatus(cs)
+            days = PersistenceController.shared.loadCalendarStatus()!.days
+        } else {
+            days = calendarStatus!.days
         }
+        
+        
         
     }
 }
@@ -41,6 +55,7 @@ struct ContentView: View {
     @State var selectedDetent = PresentationDetent.fraction(0.2)
     @State var blurRadius: CGFloat = 0
     
+    
     var body: some View {
         VStack {
             
@@ -48,10 +63,9 @@ struct ContentView: View {
                 .sheet(isPresented: $showingDayTools, onDismiss: { selectedDetent = PresentationDetent.fraction(0.2) }) {
                     NavigationView {
                         List {
-                            Text("Működik")
-                            // TODO add options for reserving and cancelling and all that
+                            // TODO add options for reserving and cancelling and all that, above that list the general status of your reservation for
                         }
-                            .navigationTitle("Napok kezelése")
+                            .navigationTitle("A kijelöltek kezelése")
                             .toolbar {
                                 ToolbarItem(placement: .cancellationAction) {
                                     Button("Mégse", action: {
@@ -64,8 +78,10 @@ struct ContentView: View {
                                         
                                     })
                                 }
-                                ToolbarItem(placement: .confirmationAction) {
-                                    Button("Kiválasztás", action: { selectedDetent = PresentationDetent.fraction(0.72) })
+                                if selectedDetent == PresentationDetent.fraction(0.2) {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button("Kiválasztás", action: { selectedDetent = PresentationDetent.fraction(0.72) })
+                                    }
                                 }
                             }
                     }
@@ -322,10 +338,10 @@ struct DayItem: View, Identifiable {
         Button(action: { toggleSelected() }) {
             Text("\(sd.calendar.component(.day, from: sd.days[id].day))")
                 .frame(width: 35, height: 35)
-                .background(sd.days[id].isSelected ? Color.accentColor : Color.clear)
+                .background(sd.days[id].isSelected ? sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : Color.gray : Color.clear)
                 .clipShape(Circle())
                 .fontWeight(sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? .heavy : .regular)
-                .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? Color.accentColor : id % 7 >= 5 ? Color.secondary : Color.primary)
+                .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : id % 7 >= 5 ? Color.secondary : Color.primary)
         }
         .padding(.horizontal, 10.0)
     }
