@@ -103,7 +103,7 @@ struct ContentView: View {
             if let session = pc.loadSession() {
                 print(session.token)
             } else {
-                showingLoginPage = true
+               // showingLoginPage = true
             }
         })
         .sheet(isPresented: $showingLoginPage) {

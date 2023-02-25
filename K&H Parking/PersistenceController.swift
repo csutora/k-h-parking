@@ -14,16 +14,13 @@ class Users: NSManagedObject {
     @NSManaged var users: [User]
 }
 
-//enum dayStatus: Codable {
-//    case hasSpot
-//    case requestedSpot
-//    case none
-//}
-
 @objc(CalendarStorage)
 class CalendarStorage: NSManagedObject {
-    @NSManaged var statuses: [Int] //refer above, 0
-    @NSManaged var priorities: [Bool]
+    @NSManaged var emptySpots: [Int]
+    @NSManaged var reservedDays: [Bool]
+    @NSManaged var queueDays: [Bool]
+    @NSManaged var priorityDays: [Bool]
+
 }
 
 struct Session: Codable {
