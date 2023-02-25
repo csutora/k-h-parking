@@ -97,8 +97,15 @@ struct LoginView: View {
         Task {
             await ah.login(email: $email.wrappedValue, password: $password.wrappedValue)
             if ah.token != nil {
-                let user = User(name: ah.name!, licensePlates: ah.licensePlates!, email:$email.wrappedValue, token: ah.token!)
-                pc.saveUser(user)
+                var session = pc.loadSession()
+                var favoriteNames: [String] = []
+                var favoriteEmails: [String] = []
+                if session != nil {
+                    favoriteNames = session!.favoriteNames
+                    favoriteEmails = session!.favoriteEmails
+                }
+                session = Session(token: ah.token!, name: ah.name!, email:$email.wrappedValue, licensePlates: ah.licensePlates!, favoriteNames: favoriteNames, favoriteEmails: favoriteEmails)
+                pc.saveSession(session!)
                 slp.wrappedValue = false
             }
         }

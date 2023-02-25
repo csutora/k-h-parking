@@ -1,66 +1,46 @@
 import Foundation
 import UIKit
+import CoreData
 
-struct User: Codable {
-    var name: String
-    var licensePlates: [String]
-    var email: String
+@objc(User)
+class User: NSManagedObject {
+    @NSManaged var name: String
+    @NSManaged var email: String
+    @NSManaged var licensePlates: [String]
+}
+
+@objc(Users)
+class Users: NSManagedObject {
+    @NSManaged var users: [User]
+}
+
+//enum dayStatus: Codable {
+//    case hasSpot
+//    case requestedSpot
+//    case none
+//}
+
+@objc(CalendarStorage)
+class CalendarStorage: NSManagedObject {
+    @NSManaged var statuses: [Int] //refer above, 0
+    @NSManaged var priorities: [Bool]
+}
+
+struct Session: Codable {
     var token: String
+    var name: String
+    var email: String
+    var licensePlates: [String]
+    var favoriteNames: [String]
+    var favoriteEmails: [String]
 }
 
-struct Favorites{
-    var favoritePersons: [User]
-}
-
-struct CalendarStore {
-    var dates: [Date: ReservationStatus] = [:]
-    
-    enum ReservationStatus {
-        case reserved
-        case waitlisted
-        case rejected
-        case noAnswer
-    }
-    
-    mutating func reserveDate(_ date: Date) -> Bool {
-        if dates[date] == nil {
-            dates[date] = .reserved
-            return true
-        }
-        return false
-    }
-    
-    mutating func waitlistDate(_ date: Date) -> Bool {
-        if dates[date] == nil {
-            dates[date] = .waitlisted
-            return true
-        }
-        return false
-    }
-    
-    mutating func rejectDate(_ date: Date) -> Bool {
-        if dates[date] == nil {
-            dates[date] = .rejected
-            return true
-        }
-        return false
-    }
-    
-    mutating func markDateNoAnswer(_ date: Date) -> Bool {
-        if dates[date] == nil {
-            dates[date] = .noAnswer
-            return true
-        }
-        return false
-    }
-}
 
 class PersistenceController {
-    
     static let shared = PersistenceController()
     
     private let notificationTimeKey = "notificationTime"
-    private let userKey = "user"
+    private let sessionKey = "session"
     
     
     var notificationTime: Date? {
@@ -83,29 +63,26 @@ class PersistenceController {
             return nil
         }
     }
-    func saveUser(_ user: User) {
+    
+    func saveSession(_ session: Session) {
             do {
-                let data = try JSONEncoder().encode(user)
-                UserDefaults.standard.set(data, forKey: userKey)
+                let data = try JSONEncoder().encode(session)
+                UserDefaults.standard.set(data, forKey: sessionKey)
             } catch {
-                print("Failed to encode user: \(error.localizedDescription)")
+                print("Failed to encode session: \(error.localizedDescription)")
             }
     }
-    func loadUser() -> User? {
-            guard let data = UserDefaults.standard.data(forKey: userKey) else {
+    func loadSession() -> Session? {
+            guard let data = UserDefaults.standard.data(forKey: sessionKey) else {
                 return nil
             }
             do {
-                let user = try JSONDecoder().decode(User.self, from: data)
-                return user
+                let session = try JSONDecoder().decode(Session.self, from: data)
+                return session
             } catch {
-                print("Failed to decode user: \(error.localizedDescription)")
+                print("Failed to decode session: \(error.localizedDescription)")
                 return nil
             }
-    }
-        
-    func deleteUser() {
-            UserDefaults.standard.removeObject(forKey: userKey)
     }
     
 }

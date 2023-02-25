@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 import SwiftUIKit
 
-enum dayStatus {
+enum dayStatus: Codable {
     case hasSpot
     case requestedSpot
     case none
@@ -17,14 +17,12 @@ enum dayStatus {
 
 struct DayData: Identifiable {
     let day: Date
-    let isStart: Bool
     var isSelected: Bool = false
     var isWeekend: Bool = false
     var status: dayStatus = dayStatus.none
     let id: Int
-    init(day: Date, start: Bool, id: Int) {
+    init(day: Date, id: Int) {
         self.day = day
-        self.isStart = start
         self.id = id
         self.isWeekend = id % 7 >= 5 ? true : false
     }
@@ -45,8 +43,7 @@ class SharedData: ObservableObject {
         var i = 0
         
         while currDate < endDate {
-            let startOfWeek = calendar.startOfWeek(for: currDate)
-            days.append(DayData(day: currDate, start: calendar.isDate(startOfWeek, inSameDayAs: currDate) ? true : false,  id: i))
+            days.append(DayData(day: currDate, id: i))
             currDate = calendar.date(byAdding: .day, value: 1, to: currDate)!
             i += 1
             
@@ -103,8 +100,8 @@ struct ContentView: View {
         }
         .padding(.top)
         .onAppear(perform: {
-            if let user = pc.loadUser() {
-                print(user.token)
+            if let session = pc.loadSession() {
+                print(session.token)
             } else {
                 showingLoginPage = true
             }
@@ -185,6 +182,7 @@ struct ScrollableDaySelectorView: View {
                 }
             }
         }
+        .padding(.horizontal)
         
             
     }
