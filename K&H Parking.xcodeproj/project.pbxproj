@@ -11,7 +11,6 @@
 		7A4D4C0F29A96EA60056BBDE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C0E29A96EA60056BBDE /* ContentView.swift */; };
 		7A4D4C1129A96EA60056BBDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1029A96EA60056BBDE /* Assets.xcassets */; };
 		7A4D4C1429A96EA60056BBDE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1329A96EA60056BBDE /* Preview Assets.xcassets */; };
-		7A4D4C1929A96EA60056BBDE /* K_H_Parking.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1729A96EA60056BBDE /* K_H_Parking.xcdatamodeld */; };
 		7A4D4C2029A96EFF0056BBDE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C1F29A96EFF0056BBDE /* LoginView.swift */; };
 		7A4D4C2229A96F2A0056BBDE /* HttpHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2129A96F2A0056BBDE /* HttpHandler.swift */; };
 		7A4D4C2429A96F4E0056BBDE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */; };
@@ -27,7 +26,6 @@
 		7A4D4C0E29A96EA60056BBDE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7A4D4C1029A96EA60056BBDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A4D4C1329A96EA60056BBDE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		7A4D4C1829A96EA60056BBDE /* K_H_Parking.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = K_H_Parking.xcdatamodel; sourceTree = "<group>"; };
 		7A4D4C1F29A96EFF0056BBDE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		7A4D4C2129A96F2A0056BBDE /* HttpHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHandler.swift; sourceTree = "<group>"; };
 		7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 				7A4D4C0C29A96EA60056BBDE /* K_H_ParkingApp.swift */,
 				7A4D4C0E29A96EA60056BBDE /* ContentView.swift */,
 				7A4D4C1029A96EA60056BBDE /* Assets.xcassets */,
-				7A4D4C1729A96EA60056BBDE /* K_H_Parking.xcdatamodeld */,
 				7A4D4C1229A96EA60056BBDE /* Preview Content */,
 				7A4D4C2129A96F2A0056BBDE /* HttpHandler.swift */,
 				7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */,
@@ -167,7 +164,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				907E3BD729AA371200770894 /* BackgroundTask.swift in Sources */,
-				7A4D4C1929A96EA60056BBDE /* K_H_Parking.xcdatamodeld in Sources */,
 				7A4D4C0F29A96EA60056BBDE /* ContentView.swift in Sources */,
 				7A4D4C2029A96EFF0056BBDE /* LoginView.swift in Sources */,
 				7A4D4C2429A96F4E0056BBDE /* NotificationManager.swift in Sources */,
@@ -394,19 +390,6 @@
 			productName = SwiftUIKit;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		7A4D4C1729A96EA60056BBDE /* K_H_Parking.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				7A4D4C1829A96EA60056BBDE /* K_H_Parking.xcdatamodel */,
-			);
-			currentVersion = 7A4D4C1829A96EA60056BBDE /* K_H_Parking.xcdatamodel */;
-			path = K_H_Parking.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 7A4D4C0129A96EA50056BBDE /* Project object */;
 }

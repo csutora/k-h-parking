@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct K_H_ParkingApp: App {
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {

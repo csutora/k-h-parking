@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import CoreData
 
 struct Session: Codable {
     var token: String
@@ -8,7 +7,6 @@ struct Session: Codable {
     var email: String
     var licensePlates: [String]
     var favoriteNames: [String]
-    var favoriteEmails: [String]
 }
 
 struct Settings: Codable {
@@ -17,33 +15,32 @@ struct Settings: Codable {
     var notifTime: Date
 }
 
-@objc(User)
-class User: NSManagedObject {
-    @NSManaged var name: String
-    @NSManaged var email: String
-    @NSManaged var licensePlates: [String]
+struct DayData: Identifiable, Codable {
+    var isSelected: Bool = false
+    
+    var day: Date
+    var id: Int
+    var emptySpotCount: Int = 0
+    var isReserved: Bool = false
+    var isQueue: Bool = false
+    var isPriority: Bool = false
+    
+    init(day: Date, id: Int) {
+        self.day = day
+        self.id = id
+    }
 }
 
-@objc(UserStorage)
-class UserStorage: NSManagedObject {
-    @NSManaged var users: [User]
+struct CalendarStatus: Codable {
+    var days: [DayData]
 }
-
-@objc(CalendarStorage)
-class CalendarStorage: NSManagedObject {
-    @NSManaged var emptySpots: [Int]
-    @NSManaged var reservedDays: [Bool]
-    @NSManaged var queueDays: [Bool]
-    @NSManaged var priorityDays: [Bool]
-
-}
-
 
 class PersistenceController {
     static let shared = PersistenceController()
     
     private let sessionKey = "session"
     private let settingsKey = "settings"
+    private let calendarStatusKey = "calendarStatus"
     
     //Settings and Session -> UserDefaults
     
@@ -91,8 +88,27 @@ class PersistenceController {
             }
     }
     
+    func saveCalendarStatus(_ calendarStatus: CalendarStatus) {
+            do {
+                let data = try JSONEncoder().encode(calendarStatus)
+                UserDefaults.standard.set(data, forKey: calendarStatusKey)
+            } catch {
+                print("Failed to encode calendar status: \(error.localizedDescription)")
+            }
+    }
     
-    // Users and Calendar -> CoreData
+    func loadCalendarStatus() -> CalendarStatus? {
+            guard let data = UserDefaults.standard.data(forKey: calendarStatusKey) else {
+                return nil
+            }
+            do {
+                let calendarStatus = try JSONDecoder().decode(CalendarStatus.self, from: data)
+                return calendarStatus
+            } catch {
+                print("Failed to decode calendar status: \(error.localizedDescription)")
+                return nil
+            }
+    }
     
     
     

@@ -9,25 +9,6 @@ import SwiftUI
 import CoreData
 import SwiftUIKit
 
-enum dayStatus: Codable {
-    case hasSpot
-    case requestedSpot
-    case none
-}
-
-struct DayData: Identifiable {
-    let day: Date
-    var isSelected: Bool = false
-    var isWeekend: Bool = false
-    var status: dayStatus = dayStatus.none
-    let id: Int
-    init(day: Date, id: Int) {
-        self.day = day
-        self.id = id
-        self.isWeekend = id % 7 >= 5 ? true : false
-    }
-}
-
 class SharedData: ObservableObject {
     @Published var selectedDays: [DayData] = []
     @Published var days: [DayData] = []
@@ -93,16 +74,43 @@ struct ContentView: View {
                     .presentationDetents([.fraction(0.2), .fraction(0.72)], selection: $selectedDetent)
                                         
                 }
+                .padding(.bottom)
+                .background(Color(UIColor.secondarySystemBackground))
+            ZStack {
+                VStack {
+                    Spacer()
+                }
+                    .ignoresSafeArea()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay( /// apply a rounded border
+                        RoundedRectangle(cornerRadius: 30)
+                        //.stroke(.blue, lineWidth: 5)
+                            .fill(Color(UIColor.systemBackground))
+                            .shadow(radius: 4)
+                            .ignoresSafeArea(edges: .bottom)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                   )
+                VStack {
+                    Text("smthn")
+                    Spacer()
+                        .ignoresSafeArea()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
                 
+                
+                
+            }
+            
             Spacer()
             
         }
         .padding(.top)
+        .ignoresSafeArea(edges: .bottom)
         .onAppear(perform: {
             if let session = PersistenceController.shared.loadSession() {
-                print(session.token)
+                print("already logged in: " + session.name)
             } else {
-               // showingLoginPage = true
+                showingLoginPage = true
             }
         })
         .sheet(isPresented: $showingLoginPage) {
@@ -153,6 +161,7 @@ struct ContentView: View {
                 
             }
         }
+        .background(Color(UIColor.secondarySystemBackground))
         
     }
 }
@@ -209,7 +218,7 @@ struct DayItem: View, Identifiable {
                 .background(sd.days[id].isSelected ? Color.accentColor : Color.clear)
                 .clipShape(Circle())
                 .fontWeight(sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? .heavy : .regular)
-                .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? Color.accentColor : sd.days[id].isWeekend ? Color.secondary : Color.primary)
+                .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? Color.accentColor : id % 7 >= 5 ? Color.secondary : Color.primary)
         }
         .padding(.horizontal, 10.0)
     }

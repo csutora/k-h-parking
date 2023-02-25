@@ -95,19 +95,10 @@ struct LoginView: View {
     
     func loginButton() {
         Task {
-            await ah.login(email: $email.wrappedValue, password: $password.wrappedValue)
-            if ah.token != nil {
-                var session = pc.loadSession()
-                var favoriteNames: [String] = []
-                var favoriteEmails: [String] = []
-                if session != nil {
-                    favoriteNames = session!.favoriteNames
-                    favoriteEmails = session!.favoriteEmails
-                }
-                session = Session(token: ah.token!, name: ah.name!, email:$email.wrappedValue, licensePlates: ah.licensePlates!, favoriteNames: favoriteNames, favoriteEmails: favoriteEmails)
-                pc.saveSession(session!)
-                slp.wrappedValue = false
-            }
+            let session = Session(token: "mocktoken", name: "Csutora Nara", email:$email.wrappedValue, licensePlates: ["123-LOL","420-GPC"], favoriteNames: ["Török Péter", "Freund László", "Varjú Ákos", "Bóta Attila"])
+            pc.saveSession(session)
+            slp.wrappedValue = false
+            print("logged in")
         }
     }
 
