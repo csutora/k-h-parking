@@ -24,16 +24,44 @@ class NotificationManager {
             }
         }
     }
+    func setCategories() {
+            let replyAction = UNTextInputNotificationAction(
+                identifier: "reply",
+                title: "Reply",
+                options: [.foreground],
+                textInputButtonTitle: "Send",
+                textInputPlaceholder: "Type your message here"
+            )
+            
+            let deleteAction = UNNotificationAction(
+                identifier: "delete",
+                title: "Delete",
+                options: [.destructive]
+            )
+            
+            let category = UNNotificationCategory(
+                identifier: "message",
+                actions: [replyAction, deleteAction],
+                intentIdentifiers: [],
+                options: [.customDismissAction]
+            )
+            
+            let center = UNUserNotificationCenter.current()
+            center.setNotificationCategories([category])
+    }
     
     static func scheduleNotification(at notificationTime: Date) {
-        
+        NotificationManager.shared.setCategories()
         let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests() // remove all previously scheduled notifications
-
+       // center.removeAllPendingNotificationRequests()
+        center.removePendingNotificationRequests(withIdentifiers: ["notification"])
+        
         let content = UNMutableNotificationContent()
         content.title = "Reminder"
         content.body = "Don't forget to check out your app today!"
         content.sound = UNNotificationSound.default
+        content.badge = 1
+        content.categoryIdentifier = "message"
         
         // extract hour and minute components from notificationTime
         let calendar = Calendar.current
@@ -59,4 +87,5 @@ class NotificationManager {
         defaults.set(notificationTime, forKey: "notificationTime")
         
     }
+    
 }
