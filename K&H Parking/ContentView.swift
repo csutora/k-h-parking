@@ -130,13 +130,30 @@ struct ContentView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         
                         Spacer()
-                        Text("075")
-                            .font(.largeTitle)
-                            .fontWeight(.heavy)
-                            .frame(width: 90, height: 50)
-                            .background(Color(UIColor.secondarySystemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding(.trailing, 15.0)
+                        Button(action: {
+                            showingMapGuidePage = true
+                        }) {
+                            Text("025")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .frame(width: 90, height: 50)
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .padding(.trailing, 15.0)
+                        }
+
+                    }
+                    .sheet(isPresented: $showingMapGuidePage) {
+                        NavigationView{
+                            MapGuideView()
+                                .navigationTitle("")
+                                .toolbar {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button("Kész", action: {showingMapGuidePage = false})
+                                    }
+                                }
+                        }
+                        .presentationDetents([.fraction(0.57)])
                     }
                     .padding(.top, 20.0)
                     .padding()
