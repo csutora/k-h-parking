@@ -49,7 +49,7 @@ struct ContentView: View {
                     NavigationView {
                         List {
                             Text("Működik")
-                            // TODO add options for reserving and cancelling and all that
+                            // TODO add options for reserving and cancelling and all that, above that list the general status of your reservation for
                         }
                             .navigationTitle("Napok kezelése")
                             .toolbar {
@@ -64,8 +64,10 @@ struct ContentView: View {
                                         
                                     })
                                 }
-                                ToolbarItem(placement: .confirmationAction) {
-                                    Button("Kiválasztás", action: { selectedDetent = PresentationDetent.fraction(0.72) })
+                                if selectedDetent == PresentationDetent.fraction(0.2) {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button("Kiválasztás", action: { selectedDetent = PresentationDetent.fraction(0.72) })
+                                    }
                                 }
                             }
                     }
@@ -322,10 +324,10 @@ struct DayItem: View, Identifiable {
         Button(action: { toggleSelected() }) {
             Text("\(sd.calendar.component(.day, from: sd.days[id].day))")
                 .frame(width: 35, height: 35)
-                .background(sd.days[id].isSelected ? Color.accentColor : Color.clear)
+                .background(sd.days[id].isSelected ? sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : Color.gray : Color.clear)
                 .clipShape(Circle())
                 .fontWeight(sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? .heavy : .regular)
-                .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? Color.accentColor : id % 7 >= 5 ? Color.secondary : Color.primary)
+                .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : id % 7 >= 5 ? Color.secondary : Color.primary)
         }
         .padding(.horizontal, 10.0)
     }
