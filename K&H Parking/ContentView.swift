@@ -20,15 +20,29 @@ class SharedData: ObservableObject {
         startDate = calendar.startOfWeek(for: Date()) // Start of this week
         endDate = startDate.addingTimeInterval(21 * 24 * 60 * 60) // Two weeks from the start of this week
         
-        var currDate = startDate
-        var i = 0
         
-        while currDate < endDate {
-            days.append(DayData(day: currDate, id: i))
-            currDate = calendar.date(byAdding: .day, value: 1, to: currDate)!
-            i += 1
+        
+        let calendarStatus: CalendarStatus? = PersistenceController.shared.loadCalendarStatus()
+        if calendarStatus == nil {
             
+            var cs: CalendarStatus = CalendarStatus(days: [])
+            var currDate = startDate
+            var i = 0
+            
+            while currDate < endDate {
+                cs.days.append(DayData(day: currDate, id: i))
+                currDate = calendar.date(byAdding: .day, value: 1, to: currDate)!
+                i += 1
+                
+            }
+            
+            PersistenceController.shared.saveCalendarStatus(cs)
+            days = PersistenceController.shared.loadCalendarStatus()!.days
+        } else {
+            days = calendarStatus!.days
         }
+        
+        
         
     }
 }
@@ -41,6 +55,7 @@ struct ContentView: View {
     @State var selectedDetent = PresentationDetent.fraction(0.2)
     @State var blurRadius: CGFloat = 0
     
+    
     var body: some View {
         VStack {
             
@@ -48,10 +63,9 @@ struct ContentView: View {
                 .sheet(isPresented: $showingDayTools, onDismiss: { selectedDetent = PresentationDetent.fraction(0.2) }) {
                     NavigationView {
                         List {
-                            Text("Működik")
                             // TODO add options for reserving and cancelling and all that, above that list the general status of your reservation for
                         }
-                            .navigationTitle("Napok kezelése")
+                            .navigationTitle("A kijelöltek kezelése")
                             .toolbar {
                                 ToolbarItem(placement: .cancellationAction) {
                                     Button("Mégse", action: {
