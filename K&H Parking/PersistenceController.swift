@@ -2,6 +2,23 @@ import Foundation
 import UIKit
 import CoreData
 
+struct Session: Codable {
+    var token: String
+    var name: String
+    var email: String
+    var licensePlates: [String]
+    var favoriteNames: [String]
+    var favoriteEmails: [String]
+}
+
+struct Settings: Codable {
+    var notifEnabled: Bool
+    var notifAutomatic: Bool
+    var notifTime: Date
+}
+
+
+
 @objc(User)
 class User: NSManagedObject {
     @NSManaged var name: String
@@ -9,8 +26,8 @@ class User: NSManagedObject {
     @NSManaged var licensePlates: [String]
 }
 
-@objc(Users)
-class Users: NSManagedObject {
+@objc(UserStorage)
+class UserStorage: NSManagedObject {
     @NSManaged var users: [User]
 }
 
@@ -23,40 +40,33 @@ class CalendarStorage: NSManagedObject {
 
 }
 
-struct Session: Codable {
-    var token: String
-    var name: String
-    var email: String
-    var licensePlates: [String]
-    var favoriteNames: [String]
-    var favoriteEmails: [String]
-}
-
 
 class PersistenceController {
     static let shared = PersistenceController()
     
-    private let notificationTimeKey = "notificationTime"
     private let sessionKey = "session"
+    private let settingsKey = "settings"
     
+    //Settings and Session -> UserDefaults
     
-    var notificationTime: Date? {
-        get {
-            return UserDefaults.standard.object(forKey: notificationTimeKey) as? Date
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: notificationTimeKey)
+    func saveSettings(settings: Settings) {
+        do {
+            let data = try JSONEncoder().encode(settings)
+            UserDefaults.standard.set(data, forKey: settingsKey)
+        } catch {
+            print("Failed to encode settings: \(error.localizedDescription)")
         }
     }
     
-    func saveNotificationTime(notificationTime: Date) {
-        self.notificationTime = notificationTime
-    }
-    
-    func loadNotificationTime() -> Date? {
-        if let notificationTime = notificationTime {
-            return notificationTime
-        } else {
+    func loadSettings() -> Settings? {
+        guard let data = UserDefaults.standard.data(forKey: settingsKey) else {
+            return nil
+        }
+        do {
+            let settings = try JSONDecoder().decode(Settings.self, from: data)
+            return settings
+        } catch {
+            print("Failed to decode settings: \(error.localizedDescription)")
             return nil
         }
     }
@@ -69,6 +79,7 @@ class PersistenceController {
                 print("Failed to encode session: \(error.localizedDescription)")
             }
     }
+    
     func loadSession() -> Session? {
             guard let data = UserDefaults.standard.data(forKey: sessionKey) else {
                 return nil
@@ -81,6 +92,11 @@ class PersistenceController {
                 return nil
             }
     }
+    
+    
+    // Users and Calendar -> CoreData
+    
+    
     
 }
 

@@ -58,7 +58,6 @@ struct ContentView: View {
     @State var showingDayTools = false
     @State var showingLoginPage = false
     @State var selectedDetent = PresentationDetent.fraction(0.2)
-    var pc = PersistenceController()
     
     var body: some View {
         VStack {
@@ -100,7 +99,7 @@ struct ContentView: View {
         }
         .padding(.top)
         .onAppear(perform: {
-            if let session = pc.loadSession() {
+            if let session = PersistenceController.shared.loadSession() {
                 print(session.token)
             } else {
                // showingLoginPage = true

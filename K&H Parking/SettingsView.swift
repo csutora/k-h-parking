@@ -56,16 +56,22 @@ struct SettingsAccountView: View{
 
 struct SettingsNotificationView: View {
     
-    let isToggleOnKey = "isToggleOn"
-    @State var isNotificationToggleOn = false
+    @State var isNotificationToggleOn = true
     @State var isNotificationAutomaticToggleOn = true
-    
-    init(){
-        _isNotificationToggleOn = State(initialValue: UserDefaults.standard.bool(forKey: isToggleOnKey))
-    }
-    
     @State var notificationTime = Date()
     @State private var hasTestRun = false
+    
+    init() {
+        var settings = PersistenceController.shared.loadSettings()
+        if settings == nil {
+            print("settings reset to default")
+            PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
+            settings = PersistenceController.shared.loadSettings()
+        }
+        isNotificationToggleOn = settings!.notifEnabled
+        isNotificationAutomaticToggleOn = settings!.notifAutomatic
+        notificationTime = settings!.notifTime
+    }
     
     private let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -80,7 +86,7 @@ struct SettingsNotificationView: View {
                 Text("Engedélyezve")
             }
             .onChange(of: isNotificationToggleOn) { newValue in
-                UserDefaults.standard.set(newValue, forKey: isToggleOnKey)
+                PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
                 if newValue && !hasTestRun {
                     NotificationManager.shared.requestAuthorization()
                     hasTestRun = true
@@ -91,34 +97,42 @@ struct SettingsNotificationView: View {
                     Text("Automatikus időpont")
                 }
                 if(!isNotificationAutomaticToggleOn){
-                    NotificationTimePicker(selectedTime: $notificationTime)
+                    NotificationTimePicker(selectedTime: $notificationTime, isNotificationToggleOn: $isNotificationToggleOn, isNotificationAutomaticToggleOn: $isNotificationAutomaticToggleOn)
                 }
             }
             
         }
         .onDisappear {
-            UserDefaults.standard.set(isNotificationToggleOn, forKey: isToggleOnKey)
+            PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
         }
         .navigationTitle("Értesítések")
         .onAppear {
-            if let loadedNotificationTime = PersistenceController.shared.loadNotificationTime() {
-                notificationTime = loadedNotificationTime
+            var settings = PersistenceController.shared.loadSettings()
+            if settings == nil {
+                print("settings reset to default")
+                PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
+                settings = PersistenceController.shared.loadSettings()
             }
+            isNotificationToggleOn = settings!.notifEnabled
+            isNotificationAutomaticToggleOn = settings!.notifAutomatic
+            notificationTime = settings!.notifTime
         }
     }
 }
 
 struct NotificationTimePicker: View {
     @Binding var selectedTime: Date
+    @Binding var isNotificationToggleOn: Bool
+    @Binding var isNotificationAutomaticToggleOn: Bool
     
     var body: some View {
         DatePicker("Értesítések ideje", selection: $selectedTime, displayedComponents: .hourAndMinute)
             .datePickerStyle(.compact)
             .onChange(of: selectedTime) { newValue in
-                            PersistenceController.shared.saveNotificationTime(notificationTime: newValue)
+                PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: selectedTime))
             }
             .onChange(of: selectedTime) { newValue in
-                if(UserDefaults.standard.bool(forKey: "isToggleOn")) {
+                if(isNotificationToggleOn) {
                     NotificationManager.scheduleNotification(at: newValue)
                 }
             }
