@@ -39,6 +39,7 @@ struct ContentView: View {
     @State var showingDayTools = false
     @State var showingLoginPage = false
     @State var selectedDetent = PresentationDetent.fraction(0.2)
+    @State var blurRadius: CGFloat = 0
     
     var body: some View {
         VStack {
@@ -72,10 +73,17 @@ struct ContentView: View {
                     .presentationDragIndicator(.visible)
                     .interactiveDismissDisabled(true)
                     .presentationDetents([.fraction(0.2), .fraction(0.72)], selection: $selectedDetent)
+                    .onAppear {
+                        withAnimation() { blurRadius = 8 }
+                    }
+                    .onDisappear {
+                        withAnimation() { blurRadius = 0 }
+                    }
                                         
                 }
                 .padding(.bottom)
                 .background(Color(UIColor.secondarySystemBackground))
+            
             ZStack {
                 VStack {
                     Spacer()
@@ -86,22 +94,114 @@ struct ContentView: View {
                         RoundedRectangle(cornerRadius: 30)
                         //.stroke(.blue, lineWidth: 5)
                             .fill(Color(UIColor.systemBackground))
-                            .shadow(radius: 4)
+                            .shadow(radius: 8)
                             .ignoresSafeArea(edges: .bottom)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                    )
                 VStack {
-                    Text("smthn")
+                    HStack {
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(Color(.systemGreen))
+                            .font(.title)
+                            .padding(.leading, 15.0)
+                            .padding(.trailing, 5.0)
+                        
+                            Text("Mai Helyed:")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Spacer()
+                        Text("075")
+                            .font(.largeTitle)
+                            .fontWeight(.heavy)
+                            .frame(width: 90, height: 50)
+                            .background(Color(UIColor.secondarySystemBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(.trailing, 15.0)
+                    }
+                    .padding(.top, 20.0)
+                    .padding()
+                    
+                    HStack {
+                        Image(systemName: "checkmark.circle.badge.questionmark")
+                            .foregroundColor(Color(.systemYellow))
+                            .font(.title)
+                            .padding(.leading, 15.0)
+                            .padding(.trailing, 5.0)
+                        
+                        VStack {
+                            Text("Holnap várhatóan")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text("lesz helyed")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        
+                    }
+                    .padding(.horizontal)
+                    
+                    Divider()
+                        .padding(.horizontal, 30.0)
+                        .padding(.vertical)
+                    
+                    HStack {
+                        VStack {
+                            Image(systemName: "car")
+                                .foregroundColor(Color(.systemGray))
+                                .font(.system(size: 50))
+                                .padding(.horizontal, 20.0)
+                                .padding(.vertical)
+                            Text("56 szabad hely")
+                            ProgressView(value: 0.7)
+                                .progressViewStyle(LinearProgressViewStyle(tint: Color.green))
+                                .padding([.bottom, .horizontal])
+                        }
+                        .fontWeight(.medium)
+                        .frame(width: 150, height: 150)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .padding()
+                        
+                        VStack {
+                            Image(systemName: "bolt.car")
+                                .foregroundColor(Color(.systemGray))
+                                .font(.system(size: 50))
+                                .padding(.horizontal, 20.0)
+                                .padding(.vertical)
+                            Text("3 szabad töltő")
+                            ProgressView(value: 0.3)
+                                .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
+                                .padding([.bottom, .horizontal])
+                        }
+                        .fontWeight(.medium)
+                        .frame(width: 150, height: 150)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .padding()
+                    }
+                    .padding(.horizontal, 15.0)
+                    
+                    Divider()
+                        .padding(.horizontal, 30.0)
+                        .padding(.vertical)
+                    
+                    Button("Beálltak a helyemre", action: {/*TODO show new view with input field that then returns with an updated spot*/})
+                    
                     Spacer()
                         .ignoresSafeArea()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 
-                
+                .blur(radius: blurRadius)
                 
             }
             
             Spacer()
+            
             
         }
         .padding(.top)
@@ -113,6 +213,10 @@ struct ContentView: View {
                 showingLoginPage = true
             }
         })
+        
+       
+        
+        
         .sheet(isPresented: $showingLoginPage) {
             NavigationView {
                 LoginView(slp: $showingLoginPage)
