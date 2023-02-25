@@ -2,8 +2,6 @@ import Foundation
 import UIKit
 import CoreData
 
-//a test
-
 struct Session: Codable {
     var token: String
     var name: String
