@@ -52,6 +52,8 @@ struct ContentView: View {
     @State var showingSettings = false
     @State var showingDayTools = false
     @State var showingLoginPage = false
+    @State var showingMapTakenPage = false
+    @State var showingMapGuidePage = false
     @State var selectedDetent = PresentationDetent.fraction(0.2)
     @State var blurRadius: CGFloat = 0
     
@@ -205,7 +207,24 @@ struct ContentView: View {
                         .padding(.horizontal, 30.0)
                         .padding(.vertical)
                     
-                    Button("Beálltak a helyemre", action: {/*TODO show new view with input field that then returns with an updated spot*/})
+                    Button("Beálltak a helyemre", action: {
+                        /*TODO show new view with input field that then returns with an updated spot*/
+                        showingMapTakenPage = true
+                    })
+                    .sheet(isPresented: $showingMapTakenPage) {
+                        NavigationView{
+                            MapTakenView()
+                                .navigationTitle("")
+                                .toolbar {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button("Kész", action: {showingMapTakenPage = false})
+                                    }
+                                }
+                            
+                        }
+                    }
+                    
+                    
                     
                     Spacer()
                         .ignoresSafeArea()
@@ -236,8 +255,6 @@ struct ContentView: View {
         .sheet(isPresented: $showingLoginPage) {
             NavigationView {
                 LoginView(slp: $showingLoginPage)
-                
-                    //TODO
             }
             .navigationTitle("Belépés")
             .presentationDetents([.large])
@@ -248,9 +265,6 @@ struct ContentView: View {
             }
         }
         
-        
-
-            
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Text(showingDayTools ? String(sd.selectedDays.count) + " nap kiválasztva" : "Áttekintés")
