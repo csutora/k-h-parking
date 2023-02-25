@@ -227,11 +227,11 @@ struct ContentView: View {
             .presentationDetents([.large])
             .presentationDragIndicator(.hidden)
             .interactiveDismissDisabled(true)
-            
+            .onDisappear() {
+                NotificationManager.shared.requestAuthorization()
+            }
         }
-        .onDisappear() {
-            NotificationManager.shared.requestAuthorization()
-        }
+        
         
 
             
@@ -266,6 +266,9 @@ struct ContentView: View {
             }
         }
         .background(Color(UIColor.secondarySystemBackground))
+        .onAppear(){
+            UIApplication.shared.applicationIconBadgeNumber=0
+        }
         
     }
 }

@@ -87,17 +87,21 @@ struct SettingsNotificationView: View {
             .onChange(of: isNotificationToggleOn) { newValue in
                 PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
             }
-            if(isNotificationToggleOn){
+            if isNotificationToggleOn {
                 Toggle(isOn: $isNotificationAutomaticToggleOn){
                     Text("Automatikus időpont")
                 }
-                if(!isNotificationAutomaticToggleOn){
+                if !isNotificationAutomaticToggleOn {
                     NotificationTimePicker(selectedTime: $notificationTime, isNotificationToggleOn: $isNotificationToggleOn, isNotificationAutomaticToggleOn: $isNotificationAutomaticToggleOn)
                 }
             }
             
         }
         .onDisappear {
+            if isNotificationAutomaticToggleOn {
+                notificationTime = Calendar.current.date(bySettingHour: 4, minute: 20, second: 0, of: Date())!
+                NotificationManager.scheduleNotification(at: notificationTime)
+            }
             PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
         }
         .navigationTitle("Értesítések")

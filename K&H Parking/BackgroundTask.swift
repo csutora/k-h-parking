@@ -4,6 +4,8 @@
 //
 //  Created by Török Péter on 2023. 02. 25..
 //
+// Wrote login, then spoke with mentors who told us that this isn't very important, so we'll be focusing on other things
+
 
 import Foundation
 import UserNotifications
@@ -37,8 +39,8 @@ class BackgroundManager {
             task.setTaskCompleted(success: false)
         }
         
-        let notificationManager = NotificationManager.shared
-        let notificationTime: Date = Date().addingTimeInterval(60) //mock 1 min from now, TODO replace with http fetched value
+        // let notificationManager = NotificationManager.shared
+        // let notificationTime: Date = Date().addingTimeInterval(60) //mock 1 min from now, TODO replace with http fetched value
         // call the method to send out notification using notificationManager instance
         // next
 
