@@ -98,5 +98,38 @@ class NotificationManager {
         defaults.set(notificationTime, forKey: "notificationTime")
         
     }
+    static func scheduleAlternateNotification() {
+        
+        let center = UNUserNotificationCenter.current()
+       // center.removeAllPendingNotificationRequests()
+        center.removePendingNotificationRequests(withIdentifiers: ["alternate"])
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Értesítés"
+        content.body = "Holnap lesz parkolóhelyed a mélygarázsban!"
+        content.sound = UNNotificationSound.default
+        // create date components based on hour and minute
+        //sets the test notification date
+        
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.hour = 20
+        dateComponents.minute = 39
+        let alternativeNotifTime = calendar.date(from: dateComponents)!
+        
+        // create trigger based on date components
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        // create request using trigger and content
+        let request = UNNotificationRequest(identifier: "alternate", content: content, trigger: trigger)
+        
+        // schedule request
+        center.add(request)
+        
+        // save notification time to user defaults
+        let defaults = UserDefaults.standard
+        defaults.set(alternativeNotifTime, forKey: "alternatieNotificationTime")
+        
+    }
     
 }

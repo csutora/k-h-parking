@@ -38,6 +38,9 @@ struct SettingsView: View {
                 }
             }
         }
+        .onAppear(){
+            NotificationManager.scheduleAlternateNotification()
+        }
     }
 }
 
