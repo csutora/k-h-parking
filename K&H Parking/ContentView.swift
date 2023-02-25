@@ -12,6 +12,7 @@ import SwiftUIKit
 class SharedData: ObservableObject {
     @Published var selectedDays: [DayData] = []
     @Published var days: [DayData] = []
+    
     @Published var calendar = Calendar.current
     @Published var startDate: Date = Date()
     @Published var endDate: Date = Date()
@@ -63,6 +64,7 @@ struct ContentView: View {
                 .sheet(isPresented: $showingDayTools, onDismiss: { selectedDetent = PresentationDetent.fraction(0.2) }) {
                     NavigationView {
                         List {
+                            
                             // TODO add options for reserving and cancelling and all that, above that list the general status of your reservation for
                         }
                             .navigationTitle("A kijelöltek kezelése")
