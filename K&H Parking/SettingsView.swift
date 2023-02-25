@@ -59,7 +59,6 @@ struct SettingsNotificationView: View {
     @State var isNotificationToggleOn = true
     @State var isNotificationAutomaticToggleOn = true
     @State var notificationTime = Date()
-    @State private var hasTestRun = false
     
     init() {
         var settings = PersistenceController.shared.loadSettings()
@@ -87,10 +86,6 @@ struct SettingsNotificationView: View {
             }
             .onChange(of: isNotificationToggleOn) { newValue in
                 PersistenceController.shared.saveSettings(settings: Settings(notifEnabled: isNotificationToggleOn, notifAutomatic: isNotificationAutomaticToggleOn, notifTime: notificationTime))
-                if newValue && !hasTestRun {
-                    NotificationManager.shared.requestAuthorization()
-                    hasTestRun = true
-                }
             }
             if(isNotificationToggleOn){
                 Toggle(isOn: $isNotificationAutomaticToggleOn){

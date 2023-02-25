@@ -117,6 +117,9 @@ struct ContentView: View {
             .interactiveDismissDisabled(true)
             
         }
+        .onDisappear() {
+            NotificationManager.shared.requestAuthorization()
+        }
         
 
             
