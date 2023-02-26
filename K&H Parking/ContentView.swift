@@ -62,6 +62,8 @@ struct ContentView: View {
     @State var priority: Bool = false
     @State var hasPriority: Bool = true
     
+    @State var asd: Float = 20
+    
     
     var body: some View {
         VStack {
@@ -204,6 +206,7 @@ struct ContentView: View {
                     }
                     .onDisappear {
                         withAnimation() { blurRadius = 0 }
+                        PersistenceController.shared.saveCalendarStatus(CalendarStatus(days: sd.days))
                     }
                                         
                 }
@@ -484,7 +487,7 @@ struct DayItem: View, Identifiable {
                 .frame(width: 35, height: 35)
                 .background(sd.days[id].isSelected ? sd.days[id].isPriority ? Color.cyan : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : Color.gray : Color.clear)
                 .clipShape(Circle())
-                .fontWeight(sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date().addingTimeInterval(-5*24*60*60)) ? .heavy : .regular)
+                .fontWeight(sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? .heavy : .regular)
                 .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : id % 7 >= 5 ? Color.secondary : Color.primary)
         }
         .padding(.horizontal, 10.0)

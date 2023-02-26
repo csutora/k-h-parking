@@ -69,7 +69,7 @@ class NotificationManager {
         
         let content = UNMutableNotificationContent()
         content.title = "Emlékeztető"
-        content.body = "456 kollégája vár parkolóhelyre, ne felejtse el lemondani"
+        content.body = "136 kollégád vár parkolóhelyre, ne felejtsd el lemondani"
         content.sound = UNNotificationSound.default
         content.badge = 1
         content.categoryIdentifier = "message"
@@ -112,8 +112,8 @@ class NotificationManager {
         
         let calendar = Calendar.current
         var dateComponents = DateComponents()
-        dateComponents.hour = 20
-        dateComponents.minute = 39
+        dateComponents.hour = 3
+        dateComponents.minute = 48
         let alternativeNotifTime = calendar.date(from: dateComponents)!
         
         // create trigger based on date components
