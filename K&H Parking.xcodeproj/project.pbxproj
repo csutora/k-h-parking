@@ -17,6 +17,7 @@
 		7A4D4C2A29A96F970056BBDE /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2929A96F970056BBDE /* PersistenceController.swift */; };
 		7A4D4C2E29A96FBB0056BBDE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */; };
 		7A4D4C3329A970540056BBDE /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4D4C3229A970540056BBDE /* SwiftUIKit */; };
+		7AA4461029AAF04B00DD26B9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA4460F29AAF04B00DD26B9 /* MapView.swift */; };
 		907E3BD729AA371200770894 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907E3BD629AA371200770894 /* BackgroundTask.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		7A4D4C2329A96F4E0056BBDE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		7A4D4C2929A96F970056BBDE /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		7A4D4C2D29A96FBB0056BBDE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		7AA4460F29AAF04B00DD26B9 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		907E3BD629AA371200770894 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +67,7 @@
 		7A4D4C0B29A96EA60056BBDE /* K&H Parking */ = {
 			isa = PBXGroup;
 			children = (
+				7AA4460F29AAF04B00DD26B9 /* MapView.swift */,
 				7A4D4C1F29A96EFF0056BBDE /* LoginView.swift */,
 				7A4D4C0C29A96EA60056BBDE /* K_H_ParkingApp.swift */,
 				7A4D4C0E29A96EA60056BBDE /* ContentView.swift */,
@@ -170,6 +173,7 @@
 				7A4D4C2229A96F2A0056BBDE /* HttpHandler.swift in Sources */,
 				7A4D4C2E29A96FBB0056BBDE /* SettingsView.swift in Sources */,
 				7A4D4C0D29A96EA60056BBDE /* K_H_ParkingApp.swift in Sources */,
+				7AA4461029AAF04B00DD26B9 /* MapView.swift in Sources */,
 				7A4D4C2A29A96F970056BBDE /* PersistenceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
