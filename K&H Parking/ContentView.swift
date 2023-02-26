@@ -53,44 +53,150 @@ struct ContentView: View {
     @State var showingSettings = false
     @State var showingDayTools = false
     @State var showingLoginPage = false
-    @State var selectedDetent = PresentationDetent.fraction(0.2)
+    @State var selectedDetent = PresentationDetent.fraction(0.4)
     @State var blurRadius: CGFloat = 0
+    
+    @State var selectedType: Int = 0
+    @State var priority: Bool = false
+    @State var hasPriority: Bool = true
     
     
     var body: some View {
         VStack {
             
-            ScrollableDaySelectorView(sd: sd, sdt: $showingDayTools)
-                .sheet(isPresented: $showingDayTools, onDismiss: { selectedDetent = PresentationDetent.fraction(0.2) }) {
+            ScrollableDaySelectorView(sd: sd, sdt: $showingDayTools, selectedType: $selectedType)
+                .sheet(isPresented: $showingDayTools) {
                     NavigationView {
+                        
                         List {
-                            
-                            // TODO add options for reserving and cancelling and all that, above that list the general status of your reservation for
-                        }
-                            .navigationTitle("A kijelöltek kezelése")
-                            .toolbar {
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button("Mégse", action: {
-                                        showingDayTools = false;
-                                        selectedDetent = PresentationDetent.fraction(0.2);
-                                        for day in sd.selectedDays {
-                                            sd.days[day.id].isSelected = false
-                                        };
-                                        sd.selectedDays.removeAll()
-                                        
-                                    })
-                                }
-                                if selectedDetent == PresentationDetent.fraction(0.2) {
-                                    ToolbarItem(placement: .confirmationAction) {
-                                        Button("Kiválasztás", action: { selectedDetent = PresentationDetent.fraction(0.72) })
+                            if selectedType == 1 {
+                                Toggle(isOn: $priority) {
+                                    Text("Elsőbbségi foglalás")}.disabled(!hasPriority)
+                            }
+                                Button(action: {
+                                    for day in sd.selectedDays.map( { $0.id } ) {
+                                        switch selectedType {
+                                            case 1:
+                                                let isAvailable = Float.random(in: 0...1)
+                                                if priority && hasPriority {
+                                                    sd.days[day].isPriority = true
+                                                    hasPriority = false
+                                                    priority = false
+                                                }
+                                                else if isAvailable > 0.3 {
+                                                    sd.days[day].isReserved = true
+                                                } else {
+                                                    sd.days[day].isQueue = true
+                                                }
+                                            case -1:
+                                                sd.days[day].isSelected = false
+                                                sd.days[day].isReserved = false
+                                                sd.days[day].isQueue = false
+                                                if sd.days[day].isPriority {
+                                                    hasPriority = true
+                                                }
+                                                sd.days[day].isPriority = false
+                                            default:
+                                                print("Valami nagy baj van")
+                                            }
+                                        sd.days[day].isSelected = false
+                                        }
+                                    selectedType = 0
+                                    showingDayTools = false
+                                    sd.selectedDays.removeAll()
+                                }) {
+                                    switch selectedType {
+                                    case 1:
+                                        Text("Foglalás").fontWeight(.bold)
+                                    case -1:
+                                        Text("Felajánlás bárkinek").fontWeight(.bold)
+                                    default:
+                                        Text("Hiba bejelentése")
                                     }
                                 }
-                            }
+                                if selectedType == -1 {
+                                    Button(action: {
+                                        
+                                        for day in sd.selectedDays.map( { $0.id } ) {
+                                            sd.days[day].isSelected = false
+                                            sd.days[day].isReserved = false
+                                            sd.days[day].isQueue = false
+                                            if sd.days[day].isPriority {
+                                                hasPriority = true
+                                            }
+                                            sd.days[day].isPriority = false
+                                        }
+                                        selectedType = 0
+                                        showingDayTools = false
+                                        sd.selectedDays.removeAll()
+                                    }) {
+                                        Label(
+                                            title: { Text("Török Péter") },
+                                            icon: { Image(systemName: "star") }
+                                        )
+                                    }
+
+                                    Button(action: {
+                                        for day in sd.selectedDays.map( { $0.id } ) {
+                                            sd.days[day].isSelected = false
+                                            sd.days[day].isReserved = false
+                                            sd.days[day].isQueue = false
+                                            if sd.days[day].isPriority {
+                                                hasPriority = true
+                                            }
+                                            sd.days[day].isPriority = false
+                                        }
+                                        selectedType = 0
+                                        showingDayTools = false
+                                        sd.selectedDays.removeAll()
+                                    }) {
+                                        Label(
+                                            title: { Text("Csutora Nara") },
+                                            icon: { Image(systemName: "star") }
+                                        )
+                                    }
+
+                                    Button(action: {
+                                        for day in sd.selectedDays {
+                                            sd.days[day.id].isSelected = false
+                                            selectedType = 0
+                                        };
+                                    }) {
+                                        Label(
+                                            title: { Text("Valaki másnak...") },
+                                            icon: { Image(systemName: "magnifyingglass") }
+                                        )
+                                    }
+                                    
+                                }
+                            
+                            
+                            
+
+                            
+                        }
+                        
+                        .onAppear {
+                            selectedDetent = ( selectedType == -1 ? PresentationDetent.fraction(0.4) : PresentationDetent.fraction(0.3) )
+                        }
+                    .navigationTitle(selectedType == -1 ?  "Felajánlás..." :  "Foglalás...")
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Mégse", action: {
+                                showingDayTools = false
+                                for day in sd.selectedDays {
+                                    sd.days[day.id].isSelected = false
+                                    selectedType = 0
+                                };
+                                sd.selectedDays.removeAll()
+                                
+                            })
+                        }
                     }
-                    .presentationDetents(undimmed: [.fraction(0.2)])
+                }
+                    .presentationDetents(undimmed: [.fraction(0.4)])
                     .presentationDragIndicator(.visible)
-                    .interactiveDismissDisabled(true)
-                    .presentationDetents([.fraction(0.2), .fraction(0.72)], selection: $selectedDetent)
+                    .presentationDetents([.fraction(0.3), .fraction(0.4)], selection: $selectedDetent)
                     .onAppear {
                         withAnimation() { blurRadius = 8 }
                     }
@@ -222,6 +328,7 @@ struct ContentView: View {
             
             
         }
+    
         .padding(.top)
         .ignoresSafeArea(edges: .bottom)
         .onAppear(perform: {
@@ -291,13 +398,17 @@ struct ContentView: View {
     }
 }
 
+
 struct ScrollableDaySelectorView: View {
     @ObservedObject var sd: SharedData
     var sdt: Binding<Bool>
     let week = ["Hé", "Ke", "Sze", "Cs", "Pé", "Szo", "Va"]
-    init(sd: SharedData, sdt: Binding<Bool>) {
+    var selectedType: Binding<Int>
+    
+    init(sd: SharedData, sdt: Binding<Bool>, selectedType: Binding<Int>) {
         self.sd = sd
         self.sdt = sdt
+        self.selectedType = selectedType
     }
     
     var body: some View {
@@ -314,7 +425,7 @@ struct ScrollableDaySelectorView: View {
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
                 ForEach(sd.days) { day in
-                    DayItem(id: day.id, sd: sd, sdt: sdt)
+                    DayItem(id: day.id, sd: sd, sdt: sdt, selectedType: self.selectedType)
                 }
             }
         }
@@ -330,17 +441,19 @@ struct DayItem: View, Identifiable {
     @ObservedObject var sd: SharedData
     var sdt: Binding<Bool>
     var id: Int
-    init(id: Int, sd: SharedData, sdt: Binding<Bool>) {
+    var selectedType: Binding<Int>
+    init(id: Int, sd: SharedData, sdt: Binding<Bool>, selectedType: Binding<Int>) {
         self.sd = sd
         self.id = id
         self.sdt = sdt
+        self.selectedType = selectedType
     }
     
     var body: some View {
         Button(action: { toggleSelected() }) {
             Text("\(sd.calendar.component(.day, from: sd.days[id].day))")
                 .frame(width: 35, height: 35)
-                .background(sd.days[id].isSelected ? sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : Color.gray : Color.clear)
+                .background(sd.days[id].isSelected ? sd.days[id].isPriority ? Color.cyan : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : Color.gray : Color.clear)
                 .clipShape(Circle())
                 .fontWeight(sd.calendar.isDate(sd.days[id].day, inSameDayAs: Date()) ? .heavy : .regular)
                 .foregroundColor(sd.days[id].isSelected ? Color.primary : sd.days[id].isPriority ? Color.blue : sd.days[id].isReserved ? Color.green : sd.days[id].isQueue ? Color.yellow : id % 7 >= 5 ? Color.secondary : Color.primary)
@@ -349,17 +462,34 @@ struct DayItem: View, Identifiable {
     }
     
     func toggleSelected() {
+        let isReserved = sd.days[id].isReserved || sd.days[id].isQueue || sd.days[id].isPriority
+        //ne tudjon másikdra nyomni
+        if selectedType.wrappedValue != 0 {
+            if ((isReserved && selectedType.wrappedValue == 1 ) || (!isReserved && selectedType.wrappedValue == -1)){
+                return;
+            }
+        }
+        //selectedType beálltása
+        else {
+            if (sd.days[id].isReserved || sd.days[id].isQueue || sd.days[id].isPriority) {selectedType.wrappedValue = -1}
+            else {selectedType.wrappedValue = 1}
+        }
+        
         sd.days[id].isSelected.toggle()
         if (sd.days[id].isSelected) {
             sd.selectedDays.append(sd.days[id])
         } else {
             sd.selectedDays.removeAll{ $0.id == id }
+            if sd.selectedDays.isEmpty {
+                selectedType.wrappedValue = 0
+            }
         }
         if sd.selectedDays.isEmpty {
             sdt.wrappedValue = false
         } else {
             sdt.wrappedValue = true
         }
+
     }
     
     
