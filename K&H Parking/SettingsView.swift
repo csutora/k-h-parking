@@ -61,7 +61,7 @@ struct SettingsAccountView: View{
             HStack {
                 Spacer()
                 Button(action: {
-                    // handle logout logic
+                    UserDefaults.standard.removeObject(forKey: "session")
                 }) {
                     Text("Kijelentkezés")
                         .font(.headline)
