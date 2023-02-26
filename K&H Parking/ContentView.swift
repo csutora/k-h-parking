@@ -53,6 +53,8 @@ struct ContentView: View {
     @State var showingSettings = false
     @State var showingDayTools = false
     @State var showingLoginPage = false
+    @State var showingMapTakenPage = false
+    @State var showingMapGuidePage = false
     @State var selectedDetent = PresentationDetent.fraction(0.4)
     @State var blurRadius: CGFloat = 0
     
@@ -236,13 +238,30 @@ struct ContentView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         
                         Spacer()
-                        Text("075")
-                            .font(.largeTitle)
-                            .fontWeight(.heavy)
-                            .frame(width: 90, height: 50)
-                            .background(Color(UIColor.secondarySystemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding(.trailing, 15.0)
+                        Button(action: {
+                            showingMapGuidePage = true
+                        }) {
+                            Text("025")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .frame(width: 90, height: 50)
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .padding(.trailing, 15.0)
+                        }
+
+                    }
+                    .sheet(isPresented: $showingMapGuidePage) {
+                        NavigationView{
+                            MapGuideView()
+                                .navigationTitle("")
+                                .toolbar {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button("Kész", action: {showingMapGuidePage = false})
+                                    }
+                                }
+                        }
+                        .presentationDetents([.fraction(0.57)])
                     }
                     .padding(.top, 20.0)
                     .padding()
@@ -313,7 +332,24 @@ struct ContentView: View {
                         .padding(.horizontal, 30.0)
                         .padding(.vertical)
                     
-                    Button("Beálltak a helyemre", action: {/*TODO show new view with input field that then returns with an updated spot*/})
+                    Button("Beálltak a helyemre", action: {
+                        /*TODO show new view with input field that then returns with an updated spot*/
+                        showingMapTakenPage = true
+                    })
+                    .sheet(isPresented: $showingMapTakenPage) {
+                        NavigationView{
+                            MapTakenView()
+                                .navigationTitle("")
+                                .toolbar {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button("Kész", action: {showingMapTakenPage = false})
+                                    }
+                                }
+                            
+                        }
+                    }
+                    
+                    
                     
                     Spacer()
                         .ignoresSafeArea()
@@ -345,8 +381,6 @@ struct ContentView: View {
         .sheet(isPresented: $showingLoginPage) {
             NavigationView {
                 LoginView(slp: $showingLoginPage)
-                
-                    //TODO
             }
             .navigationTitle("Belépés")
             .presentationDetents([.large])
@@ -357,9 +391,6 @@ struct ContentView: View {
             }
         }
         
-        
-
-            
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Text(showingDayTools ? String(sd.selectedDays.count) + " nap kiválasztva" : "Áttekintés")

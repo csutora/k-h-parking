@@ -101,7 +101,6 @@ class NotificationManager {
     static func scheduleAlternateNotification() {
         
         let center = UNUserNotificationCenter.current()
-       // center.removeAllPendingNotificationRequests()
         center.removePendingNotificationRequests(withIdentifiers: ["alternate"])
         
         let content = UNMutableNotificationContent()

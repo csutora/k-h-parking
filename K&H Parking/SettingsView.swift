@@ -48,10 +48,69 @@ struct SettingsView: View {
 //ACCOUNT
 
 struct SettingsAccountView: View{
-    
+    let session = PersistenceController.shared.loadSession()
     var body: some View{
-        Text("ad")
-            .navigationTitle("Fiók kezelése")
+        VStack{
+            List{
+                SettingsAccountInfoRow(title:"Név", value: session?.name ?? "failed to load")
+                SettingsAccountInfoRow(title:"Email", value: session?.email ?? "failed to load")
+                SettingsAccountInfo2Row(title:"Rendszámaim", value: session?.licensePlates ?? ["failed to load"])
+                SettingsAccountInfo2Row(title:"Kedvencek", value: session?.favoriteNames ?? ["failed to load"])
+            }
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: {
+                    // handle logout logic
+                }) {
+                    Text("Kijelentkezés")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 300, height: 50)
+                        .background(Color.red)
+                        .cornerRadius(10)
+                }
+                Spacer()
+            }
+            .padding(.bottom, 20)
+        }
+        .background(Color(.systemGroupedBackground))
+        .navigationBarTitle(Text("Fiók"), displayMode: .inline)
+    }
+}
+
+
+struct SettingsAccountInfoRow: View {
+    var title: String
+    var value: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundColor(.primary)
+            Spacer()
+            Text(value)
+                .foregroundColor(.secondary)
+        }
+    }
+}
+struct SettingsAccountInfo2Row: View {
+    var title: String
+    var value: [String]
+    
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundColor(.primary)
+            Spacer()
+            VStack(alignment: .trailing) {
+                ForEach(value, id: \.self) { item in
+                    Text(item)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
     }
 }
 
