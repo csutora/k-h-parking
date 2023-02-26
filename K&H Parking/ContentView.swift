@@ -253,13 +253,12 @@ struct ContentView: View {
                     }
                     .sheet(isPresented: $showingMapGuidePage) {
                         NavigationView{
-                            MapGuideView()
-                                .navigationTitle("")
-                                .toolbar {
-                                    ToolbarItem(placement: .confirmationAction) {
-                                        Button("Kész", action: {showingMapGuidePage = false})
-                                    }
-                                }
+                            //MapGuideView()
+//                                .toolbar {
+//                                    ToolbarItem(placement: .confirmationAction) {
+//                                        Button("Kész", action: {showingMapGuidePage = false})
+//                                    }
+//                                }
                         }
                         .presentationDetents([.fraction(0.57)])
                     }
@@ -338,13 +337,12 @@ struct ContentView: View {
                     })
                     .sheet(isPresented: $showingMapTakenPage) {
                         NavigationView{
-                            MapTakenView()
-                                .navigationTitle("")
-                                .toolbar {
-                                    ToolbarItem(placement: .confirmationAction) {
-                                        Button("Kész", action: {showingMapTakenPage = false})
-                                    }
-                                }
+                            //MapTakenView()
+//                                .toolbar {
+//                                    ToolbarItem(placement: .confirmationAction) {
+//                                        Button("Kész", action: {showingMapTakenPage = false})
+//                                    }
+//                                }
                             
                         }
                     }
